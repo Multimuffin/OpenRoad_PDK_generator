@@ -1,0 +1,66 @@
+M1	NET	40	0
+M1	SPNET	40	0
+M1	VIA	40	0
+M1	PIN	40	0
+
+V2	VIA	41	0
+
+M2	NET	42	0
+M2	SPNET	42	0
+M2	VIA	42	0
+M2	PIN	42	0
+
+V3	VIA	43	0
+
+M3	NET	44	0
+M3	SPNET	44	0
+M3	VIA	44	0
+M3	PIN	44	0
+
+
+V4	VIA	45	0
+
+M4	NET	46	0
+M4	SPNET	46	0
+M4	VIA	46	0
+M4	PIN	46	0
+
+
+V5	VIA	47	0
+
+M5	NET	48	0
+M5	SPNET	48	0
+M5	VIA	48	0
+M5	PIN	48	0
+
+TOP_V	VIA	49	0
+
+TOP_M	NET	50	0
+TOP_M	SPNET	50	0
+TOP_M	VIA	50	0
+TOP_M	PIN	50	0
+
+NAME    M1/PIN  40      7
+NAME    M2/PIN  42      7
+NAME    M3/PIN  44      7
+NAME    M4/PIN  46      7
+NAME    M5/PIN  48      7
+NAME    TOP_M/PIN  50      7
+
+NAME    M1/NET  40      7
+NAME    M2/NET  42      7
+NAME    M3/NET  44      7
+NAME    M4/NET  46      7
+NAME    M4/NET  48      7
+NAME    TOP_M/NET  50      7
+
+M1      FILL    40      8
+M2      FILL    42      8
+M3      FILL    44      8
+M4      FILL    46      8
+M5      FILL    48      8
+TOP_M      FILL    50      8
+
+
+
+

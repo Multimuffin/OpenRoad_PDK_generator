@@ -1,4 +1,3 @@
-# tests/test_file_finder.py
 import unittest
 from pathlib import Path
 from pdk_generator.file_finder import natural_key, find_all, find_first, list_subdirs
@@ -8,6 +7,8 @@ class TestFileFinder(unittest.TestCase):
         names = ["file10.txt", "file2.txt", "file1.txt"]
         sorted_names = sorted(names, key=natural_key)
         self.assertEqual(sorted_names, ["file1.txt", "file2.txt", "file10.txt"])
+        print("test_natural_key_sorting successfull!")
+
 
     def test_find_all_and_first(self):
         import tempfile
@@ -19,6 +20,8 @@ class TestFileFinder(unittest.TestCase):
         self.assertEqual(len(all_lef), 2)
         first = find_first(tmp, "*.lef")
         self.assertIn(first.name, {"a.lef","b.lef"})
+        print("test_find_all_and_first successful!")
+
 
     def test_list_subdirs(self):
         import tempfile
@@ -27,6 +30,7 @@ class TestFileFinder(unittest.TestCase):
         (tmp/"sub2").mkdir()
         subdirs = list_subdirs(tmp)
         self.assertSetEqual({d.name for d in subdirs}, {"sub1","sub2"})
+        print("test_list_subdirs successful!")
 
 if __name__=="__main__":
     unittest.main()

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<technology>
+ <name>TSL18FS190SVT_WB</name>
+ <description>Tower TSL18FS190SVT_WB Technology</description>
+ <dbu>0.001</dbu>
+ <add-other-layers>true</add-other-layers>
+ <reader-options>
+  <lefdef>
+   <read-all-layers>true</read-all-layers>
+   <layer-map>('M1 : 1/0';'V2 : 2/0';'M2 : 3/0';'V3 : 4/0';'M3 : 5/0';'V4 : 6/0';'M4 : 7/0';'V5 : 8/0';'M5 : 9/0';'TOP_V : 10/0';'TOP_M : 11/0';'GC : 12/0';'OverlapCheck : 13/0')</layer-map>
+   <dbu>0.001</dbu>
+   <produce-net-names>true</produce-net-names>
+   <produce-inst-names>true</produce-inst-names>
+   <produce-cell-outlines>true</produce-cell-outlines>
+   <produce-placement-blockages>true</produce-placement-blockages>
+   <produce-regions>true</produce-regions>
+   <produce-via-geometry>true</produce-via-geometry>
+   <produce-pins>true</produce-pins>
+   <produce-obstructions>true</produce-obstructions>
+   <produce-blockages>true</produce-blockages>
+   <produce-labels>true</produce-labels>
+   <produce-routing>true</produce-routing>
+   <lef-files>__LEF_FILES_PLACEHOLDER__</lef-files>
+  </lefdef>
+ </reader-options>
+ <connectivity>
+  <connection>M1,V2,M2</connection>
+  <connection>M2,V3,M3</connection>
+  <connection>M3,V4,M4</connection>
+  <connection>M4,V5,M5</connection>
+  <connection>M5,TOP_V,TOP_M</connection>
+  <symbols>M1='1/0'</symbols>
+  <symbols>V2='2/0'</symbols>
+  <symbols>M2='3/0'</symbols>
+  <symbols>V3='4/0'</symbols>
+  <symbols>M3='5/0'</symbols>
+  <symbols>V4='6/0'</symbols>
+  <symbols>M4='7/0'</symbols>
+  <symbols>V5='8/0'</symbols>
+  <symbols>M5='9/0'</symbols>
+  <symbols>TOP_V='10/0'</symbols>
+  <symbols>TOP_M='11/0'</symbols>
+  <symbols>GC='12/0'</symbols>
+  <symbols>OverlapCheck='13/0'</symbols>
+ </connectivity>
+</technology>

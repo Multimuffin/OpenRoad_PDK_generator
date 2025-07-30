@@ -10,9 +10,10 @@ from pdk_generator.config_updater import ConfigUpdater
 
 logger = logging.getLogger(__name__)
 
-def generate_platform(tech_name: str) -> None:
+def generate_platform(tech_name: str, m_stack: str) -> None:
     """
     High-level orchestration of the PDK platform generation workflow.
+    Now also takes m_stack (Metal Stack) as argument.
     Steps:
       1. Determine directories
       2. Create platform folders
@@ -26,7 +27,7 @@ def generate_platform(tech_name: str) -> None:
     platforms_dir = project_root / "platforms"
     target_dir   = platforms_dir / tech_name
 
-    template_cfg = scripts_dir / "src" / "config.mk"
+    template_cfg = project_root / "src" / "config.mk"
     target_cfg   = target_dir / "config.mk"
     args_json    = target_dir / "modify_args.json"
     modify_script = scripts_dir / "modify_config.py"
@@ -44,6 +45,7 @@ def generate_platform(tech_name: str) -> None:
 
     payload = {
         "platform_name": tech_name,
+        "m_stack": m_stack,
         "generation_script_directory": str(scripts_dir),
         "project_root": str(project_root),
         "platforms_dir": str(platforms_dir),
