@@ -1,10 +1,10 @@
 {
-  "platform_name": "tsl18fs190svt_Rev_2019.09",
-  "m_stack": "3M0L",
+  "platform_name": "tsl18fs190svt_wb_Rev_2022.12",
+  "m_stack": "5M1L",
   "generation_script_directory": "/opt/projects/il11sj/nebula/work_libs/tragicomix/testroad/PDK_generator_new/scripts",
   "project_root": "/opt/projects/il11sj/nebula/work_libs/tragicomix/testroad/PDK_generator_new",
   "platforms_dir": "/opt/projects/il11sj/nebula/work_libs/tragicomix/testroad/PDK_generator_new/platforms",
-  "new_platform": "/opt/projects/il11sj/nebula/work_libs/tragicomix/testroad/PDK_generator_new/platforms/tsl18fs190svt_Rev_2019.09",
+  "new_platform": "/opt/projects/il11sj/nebula/work_libs/tragicomix/testroad/PDK_generator_new/platforms/tsl18fs190svt_wb_Rev_2022.12",
   "config_template": "/opt/projects/il11sj/nebula/work_libs/tragicomix/testroad/PDK_generator_new/src/config.mk",
-  "config_file": "/opt/projects/il11sj/nebula/work_libs/tragicomix/testroad/PDK_generator_new/platforms/tsl18fs190svt_Rev_2019.09/config.mk"
+  "config_file": "/opt/projects/il11sj/nebula/work_libs/tragicomix/testroad/PDK_generator_new/platforms/tsl18fs190svt_wb_Rev_2022.12/config.mk"
 }

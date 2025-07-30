@@ -22,7 +22,7 @@ def find_first(directory: Path, pattern: str) -> Optional[Path]:
     Return the first file matching the glob `pattern` in `directory`,
     or None if there are no matches.
     """
-    matches = find_all(directory, pattern)
+    matches = find_all(directory, pattern)  
     return matches[0] if matches else None
 
 def list_subdirs(directory: Path, reverse: bool = False) -> List[Path]:
@@ -32,3 +32,10 @@ def list_subdirs(directory: Path, reverse: bool = False) -> List[Path]:
     """
     dirs = [p for p in directory.iterdir() if p.is_dir()]
     return sorted(dirs, key=lambda p: natural_key(p.name), reverse=reverse)
+
+def find_lib_files_by_corner(lib_dir: Path, corner: str):
+    """
+    Liefert alle LIB-Dateien im Verzeichnis, die zum Corner (ff, tt, ss) passen.
+    """
+    pattern = f"*_{corner}_*.lib"
+    return list(lib_dir.glob(pattern))

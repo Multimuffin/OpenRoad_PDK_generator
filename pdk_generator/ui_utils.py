@@ -3,17 +3,23 @@ import sys
 import os
 import re
 
-def list_dir(src_dir, title="Available Options", width=4):
+def list_dir(src, title="Available Options", width=4):
     """
-    Show a formatted list of subdirectories and let the user select one.
-    Returns the selected directory name.
+    Show a formatted list of subdirectories (if src is a directory) or items (if src is a list) and let the user select one.
+    Returns the selected name.
     """
-    subdir = [d for d in os.listdir(src_dir) if (Path(src_dir) / d).is_dir()]
-    if not subdir:
-        print(f"No folders found under {src_dir}")
+    if isinstance(src, (str, Path)) and Path(src).is_dir():
+        items = [d for d in os.listdir(src) if (Path(src) / d).is_dir()]
+    elif isinstance(src, list):
+        items = list(src)
+    else:
+        print(f"Invalid input for list_dir: {src}")
         sys.exit(1)
-    subdir.sort()
-    entries = [f"{i}) {name}" for i, name in enumerate(subdir, 1)]
+    if not items:
+        print(f"No entries found under {src}")
+        sys.exit(1)
+    items.sort()
+    entries = [f"{i}) {name}" for i, name in enumerate(items, 1)]
     cols = width
     total = len(entries)
     rows = total // cols + (1 if total % cols else 0)
@@ -36,9 +42,9 @@ def list_dir(src_dir, title="Available Options", width=4):
         if sel.isdigit():
             sel_idx = int(sel)
             if 1 <= sel_idx <= total:
-                lib_val = subdir[sel_idx - 1]
-                print(f"\nSelected: {lib_val}")
-                return lib_val
+                val = items[sel_idx - 1]
+                print(f"\nSelected: {val}")
+                return val
             else:
                 print("Selection out of range.")
         else:

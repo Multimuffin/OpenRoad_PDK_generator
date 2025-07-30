@@ -1,39 +1,6 @@
 from pathlib import Path
-import logging
-
-logger = logging.getLogger(__name__)
-
-def create_symlink(src: Path, dst: Path, overwrite: bool = True) -> None:
-    """
-    Create a symbolic link at `dst` pointing to `src`.
-
-    If `overwrite` is True and `dst` already exists (file or symlink), it will be removed first.
-    """
-    src = Path(src)
-    dst = Path(dst)
-
-    # Ensure parent directory exists
-    dst.parent.mkdir(parents=True, exist_ok=True)
-
-    if overwrite and dst.exists() or dst.is_symlink():
-        dst.unlink()
-        logger.debug(f"Removed existing path at {dst}")
-
-    dst.symlink_to(src)
-    logger.info(f"Created symlink: {dst} -> {src}")
-
-def batch_symlink(pairs: list[tuple[Path, Path]], overwrite: bool = True) -> None:
-    """
-    Create multiple symlinks.
-
-    :param pairs: List of tuples (src, dst).
-    :param overwrite: Passed through to create_symlink.
-    """
-    for src, dst in pairs:
-        try:
-            create_symlink(src, dst, overwrite=overwrite)
-        except Exception as e:
-            logger.error(f"Failed to link {dst} -> {src}: {e}")
+from pdk_generator.symlink_utils import create_symlink
+from pdk_generator.ui_utils import list_dir
 
 def handle_resource(
     src_dir: Path,
@@ -53,7 +20,6 @@ def handle_resource(
         print(f"Keine Dateien für {export_key} gefunden!")
         return
     if ask_user and len(files) > 1:
-        from pdk_generator.ui_utils import list_dir
         names = [f.name for f in files]
         selected_name = list_dir(names, title=ui_title or export_key, width=1)
         file = next(f for f in files if f.name == selected_name)

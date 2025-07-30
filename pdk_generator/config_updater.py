@@ -3,6 +3,13 @@ import re
 from pathlib import Path
 import logging
 from pdk_generator.dir_utils import create_platform_dirs
+from pdk_generator.file_finder import find_lib_files_by_corner
+from pdk_generator.ui_utils import list_dir
+from pdk_generator.symlink_utils import handle_resource, cell_name_with_wb
+from pdk_generator.lef_utils import find_macros_in_lef
+
+#from pdk_generator.symlink_utils import create_symlink
+
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +55,9 @@ class ConfigUpdater:
         mlef_dir.mkdir(parents=True, exist_ok=True)
         sclef_dir.mkdir(parents=True, exist_ok=True)
 
+################################################################################
+#                                   TECH/LIBS                                  #
+################################################################################
         # new TECH_DIR
         tech_dir = Path(f"/opt/tech/tower/digital/{plat}")
         self._update_export("TECH_DIR", [tech_dir])
@@ -57,49 +67,82 @@ class ConfigUpdater:
 
         # new SC_LEF
         sc_src_dir = tech_dir / "lib" / "lef"
-        for lef_file in sc_src_dir.glob("*.lef"):
-            dst = sclef_dir / lef_file.name
-            self.symlink_pairs.append((lef_file, dst))
+        handle_resource(sc_src_dir, sclef_dir, "*.lef", "SC_LEF", self)
 
         # new TECH_LEF
         mlef_src_dir = tech_dir / "tech" / "lef" / m_stack
-        for lef_file in mlef_src_dir.glob("*.lef"):
-            dst = mlef_dir / lef_file.name
-            self.symlink_pairs.append((lef_file, dst))
+        handle_resource(mlef_src_dir, mlef_dir, "*.lef", "TECH_LEF", self)
+        print("TECH_LEF Pfade:", list(mlef_dir.glob("*.lef")))
+        print("SC_LEF Pfade:", list(sclef_dir.glob("*.lef")))
 
-
-        mlef_files = list(mlef_dir.glob("*.lef"))
-        sclef_files = list(sclef_dir.glob("*.lef"))
-        if len(mlef_files) == 1:
-            self._update_export("TECH_LEF", [mlef_files[0]])
-        else:
-            self._update_export("TECH_LEF", mlef_files)
-        if len(sclef_files) == 1:
-            self._update_export("SC_LEF", [sclef_files[0]])
-        else:
-            self._update_export("SC_LEF", sclef_files)
-
-        # LIB-Files: Interaktive Auswahl durch den Nutzer
+        # new LIB_FILES
         lib_src_dir = tech_dir / "lib" / "liberty"
-        available_libs = list(lib_src_dir.glob("*.lib"))
-        selected_libs = []
-        print("Verfügbare LIB-Dateien:")
-        for idx, libfile in enumerate(available_libs):
-            print(f"[{idx}] {libfile.name}")
-        user_input = input("Bitte die gewünschten LIB-Dateien durch Komma getrennt auswählen (z.B. 0,2,3): ")
-        try:
-            indices = [int(i.strip()) for i in user_input.split(",") if i.strip().isdigit()]
-            for i in indices:
-                if 0 <= i < len(available_libs):
-                    selected_libs.append(available_libs[i])
-        except Exception as e:
-            print(f"Fehler bei der Auswahl: {e}")
-        if selected_libs:
-            self._update_export("LIB_FILES", selected_libs)
-        else:
-            print("Keine LIB-Dateien ausgewählt!")
+        lib_dst_dir = new_pl / "lib"
+        lib_dst_dir.mkdir(parents=True, exist_ok=True)
+        corners = ["ff", "ss", "tt"]
+        for corner in corners:
+            handle_resource(lib_src_dir, lib_dst_dir, f"*{corner}*.lib", "LIB_FILES", self, ask_user=True, ui_title=f"LIB-Dateien für Corner '{corner}'")
 
-        # TODO: compute and update GDS, CDL, LIB_FILES, etc. similarly
+        # new GDS_LAYER_MAP
+        gds_map_src_dir = tech_dir / "tech" / "lef" / m_stack
+        handle_resource(gds_map_src_dir, new_pl / "gds", "*.map", "GDS_LAYER_MAP", self)
+
+        # new CDL_FILE (User-Auswahl, Symlink)
+        cdl_src_dir = tech_dir / "lib" / "cdl"
+        cdl_dst_dir = new_pl / "cdl"
+        cdl_dst_dir.mkdir(parents=True, exist_ok=True)
+        handle_resource(cdl_src_dir, cdl_dst_dir, "*.cdl", "CDL_FILE", self, ask_user=True, ui_title="CDL-Dateien")
+ 
+        # new GDS_FILE (Symlink, keine Auswahl nötig)
+        gds_src_dir = tech_dir / "lib" / "gds"
+        gds_dst_dir = new_pl / "gds"
+        gds_dst_dir.mkdir(parents=True, exist_ok=True)
+        handle_resource(gds_src_dir, gds_dst_dir, "*.gds", "GDS_FILE", self)
+
+################################################################################
+#                               Synth Variables                                #
+################################################################################
+        
+ 
+        self._update_export("ABC_DRIVER_CELL", [cell_name_with_wb(plat, "BUF_X8_18_SVT")])
+        self._update_export("TIEHI_CELL_AND_PORT", [cell_name_with_wb(plat, "TIEH_18_SVT", "", "Q")])
+        self._update_export("TIELO_CELL_AND_PORT", [cell_name_with_wb(plat, "TIEL_18_SVT", "", "Q")])
+        self._update_export("MIN_BUF_CELL_AND_PORTS", [cell_name_with_wb(plat, "BUF_X2_18_SVT", "", "A", "Q")])
+
+################################################################################
+#                                  Floorplan                                   #
+################################################################################
+
+        if str(m_stack).startswith('3'):
+            self._update_export("IO_PLACER_H", ["TOP_M"])
+
+        self._update_export("TAP_CELL_NAME", [cell_name_with_wb(plat, "FILLTIE_18_SVT")])
+
+
+################################################################################
+#                                    Place                                     #
+################################################################################
+
+
+
+################################################################################
+#                                     CTS                                      #
+################################################################################
+
+        self._update_export("FILL_CELLS", [find_macros_in_lef(next(sclef_dir.glob("*.lef")), "FILLER_")])
+
+################################################################################
+#                                    Route                                     #
+################################################################################
+
+
+
+################################################################################
+#                                   IR Drop                                    #
+################################################################################
+
+
+
 
     def write(self) -> None:
         """Write updated lines back to config.mk."""
