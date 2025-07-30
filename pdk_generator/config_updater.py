@@ -115,6 +115,9 @@ class ConfigUpdater:
 
         if str(m_stack).startswith('3'):
             self._update_export("IO_PLACER_H", ["TOP_M"])
+        elif str(m_stack).startswith('2'):
+            self._update_export("IO_PLACER_H", ["M1"])
+            self._update_export("IO_PLACER_V", ["TOP_M"])
 
         self._update_export("TAP_CELL_NAME", [cell_name_with_wb(plat, "FILLTIE_18_SVT")])
 

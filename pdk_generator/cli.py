@@ -30,7 +30,19 @@ def main(tech_name: str, verbose: bool):
         tech_root = "/opt/tech/tower/digital/"
         tech_name = list_dir(tech_root, title="Available Technologies")
 
-    m_stack = list_dir(Path(f"/opt/tech/tower/digital/{tech_name}/tech/lef"), title="Available Metal Stacks")
+
+    tech_lef_base = Path(f"/opt/tech/tower/digital/{tech_name}/tech")
+    direct_lef = tech_lef_base / "lef"
+    if direct_lef.is_dir():
+        m_stack = list_dir(direct_lef, title="Available Metal Stacks")
+    else:
+        subdirs = [d for d in tech_lef_base.iterdir() if d.is_dir() and (d / "lef").is_dir()]
+        if not subdirs:
+            click.echo(f"No valid metal stack directories found for {tech_name}.", err=True)
+            sys.exit(1)
+        selected = list_dir([d.name for d in subdirs], title="Select subdirectory for Metal Stack")
+        selected_dir = next(d for d in subdirs if d.name == selected)
+        m_stack = list_dir(selected_dir / "lef", title="Available Metal Stacks")
 
     try:
         logger.info(f"Starting PDK generation for '{tech_name}' with metal stack '{m_stack}'...")
