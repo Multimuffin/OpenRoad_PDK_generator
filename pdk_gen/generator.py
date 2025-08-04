@@ -3,11 +3,11 @@ import shutil
 import subprocess
 from pathlib import Path
 import logging
-from setup_config import load_user_config
+from .setup_config import load_user_config
 
-from pdk_gen.file_finder import list_subdirs
-from pdk_gen.symlink_utils import batch_symlink
-from pdk_gen.config_updater import ConfigUpdater
+from .file_finder import list_subdirs
+from .symlink_utils import batch_symlink
+from .config_updater import ConfigUpdater
 
 logger = logging.getLogger(__name__)
 

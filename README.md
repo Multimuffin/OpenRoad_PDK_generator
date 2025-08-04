@@ -10,7 +10,6 @@ This project is an assistant for quick generation of PDK platforms in OpenROAD.
 
 ### Prerequisites
 - Python 3.10 (or newer)
-- tcsh shell (recommended for environment activation)
 - Access to the required tech directories
 
 ### 1. Clone the Repository
@@ -19,10 +18,11 @@ git clone https://github.com/Multimuffin/OpenRoad_PDK_generator.git
 cd OpenRoad_PDK_generator
 ```
 
-### 2. Create and Activate a Virtual Environment
+### 2. Set up local virtual environment
 ```sh
 python3.10 -m venv venv
-source venv/bin/activate.csh   # For tcsh users
+source venv/bin/activate.csh  # für tcsh/csh
+# oder: source venv/bin/activate      # für bash/zsh
 ```
 
 ### 3. Upgrade pip and setuptools
@@ -35,27 +35,23 @@ pip install --upgrade pip setuptools wheel
 pip install .
 ```
 
-### 5. Add the venv bin directory to your PATH (if needed)
+### 5. Add the venv/bin directory to your PATH (if needed)
 ```tcsh
 setenv PATH "$PATH":"$VIRTUAL_ENV/bin"
 ```
-Or, if `$VIRTUAL_ENV` is not set:
-```tcsh
-setenv PATH "$PATH":/full/path/to/your/venv/bin
-```
 
-### 6. Run the CLI Tool
+### 6. One-time user configuration (path specifications)
+After installation execute:
+```sh
+pdk-setup
+```
+Follow the instructions and specify the paths to the tech and platform root directories. These are stored in `.pdkgenrc` in the current project folder.
+
+### 7. Run the CLI Tool
 ```sh
 pdk-gen
 ```
-Or, alternatively:
-```sh
-python -m pdk_gen.cli
-```
 
-### Notes
-- Make sure your tech directories are accessible as expected by the tool.
-- If you use bash/zsh, activate the environment with `source venv/bin/activate`.
 
 ## Installation
 Python 3.10 and the package `click` are required.
@@ -65,10 +61,10 @@ python3.10 -m pip install --user click
 ```
 
 ## Usage
-Start the CLI file from the project directory:
+Start the CLI-Tool from the project directory:
 
 ```sh
-python3.10 -m pdk_generator.cli
+pdk-gen
 ```
 
 ## Licence

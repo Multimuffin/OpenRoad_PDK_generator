@@ -2,10 +2,10 @@ import sys
 import logging
 import click
 from pathlib import Path
-from setup_config import load_user_config
+from .setup_config import load_user_config
 
-from pdk_gen.generator import generate_platform
-from pdk_gen.ui_utils import list_dir
+from .generator import generate_platform
+from .ui_utils import list_dir
 
 # configure root logger
 logging.basicConfig(
