@@ -43,11 +43,15 @@ class ConfigUpdater:
         Set TECH_LEF to symlink 'metal_stack.lef' pointing to selected LEF.
         """
         plat   = self.args["platform_name"]
-        root   = Path(self.args["project_root"])
-        scripts= Path(self.args["generation_script_directory"])
+        # root   = Path(self.args["project_root"])
+        # scripts= Path(self.args["generation_script_directory"])
+        root   = Path.cwd()  # <--- changed for robust path handling
+        scripts= root / "scripts"
         new_pl = Path(self.args["new_platform"])
         m_stack = self.args.get("m_stack")
 
+
+        
         # create platform directories
         create_platform_dirs(new_pl)
         mlef_dir = new_pl / "lef" / "mlef"
@@ -70,7 +74,11 @@ class ConfigUpdater:
         handle_resource(sc_src_dir, sclef_dir, "*.lef", "SC_LEF", self)
 
         # new TECH_LEF
-        mlef_src_dir = tech_dir / "tech" / "lef" / m_stack
+        #Hier ist der Pfad falsch, wenn m_stack nicht klassisch ist.
+        #if statement, das überprüft, ob die gesetzt ist.
+        #wird deklariert in cli.py
+        # selbes problem mit .map
+        mlef_src_dir = tech_dir / "tech" / "lef" / m_stac
         handle_resource(mlef_src_dir, mlef_dir, "*.lef", "TECH_LEF", self)
         print("TECH_LEF Pfade:", list(mlef_dir.glob("*.lef")))
         print("SC_LEF Pfade:", list(sclef_dir.glob("*.lef")))

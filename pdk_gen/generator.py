@@ -3,14 +3,15 @@ import shutil
 import subprocess
 from pathlib import Path
 import logging
+from setup_config import load_user_config
 
-from pdk_generator.file_finder import list_subdirs
-from pdk_generator.symlink_utils import batch_symlink
-from pdk_generator.config_updater import ConfigUpdater
+from pdk_gen.file_finder import list_subdirs
+from pdk_gen.symlink_utils import batch_symlink
+from pdk_gen.config_updater import ConfigUpdater
 
 logger = logging.getLogger(__name__)
 
-def generate_platform(tech_name: str, m_stack: str) -> None:
+def generate_platform(tech_name: str, m_stack: str, metal_subdir=None) -> None:
     """
     High-level orchestration of the PDK platform generation workflow.
     Now also takes m_stack (Metal Stack) as argument.
@@ -22,15 +23,15 @@ def generate_platform(tech_name: str, m_stack: str) -> None:
       5. Create necessary symlinks
     """
     # 1) Determine project structure
-    project_root = Path(__file__).resolve().parent.parent
+    config = load_user_config()
+    project_root = Path.cwd()
     scripts_dir  = project_root / "scripts"
-    platforms_dir = project_root / "platforms"
-    target_dir   = platforms_dir / tech_name
+    platforms_dir = Path(config["platforms_root"])
+    target_dir   = platforms_dir / f"{tech_name}_{m_stack}"
 
     template_cfg = project_root / "src" / "config.mk"
     target_cfg   = target_dir / "config.mk"
     args_json    = target_dir / "modify_args.json"
-    modify_script = scripts_dir / "modify_config.py"
 
     # 2) Create (or empty) target directory
     if target_dir.exists():
@@ -60,7 +61,7 @@ def generate_platform(tech_name: str, m_stack: str) -> None:
     # 4) Update config.mk via ConfigUpdater
     updater = ConfigUpdater(cfg_path=target_cfg, args_path=args_json)
     updater.load()
-    updater.apply_all()   # handles TECH_DIR, TECH_LEF, etc.
+    updater.apply_all(metal_subdir=metal_subdir)   # handles TECH_DIR, TECH_LEF, etc.
     updater.write()
 
     # 5) Create symlinks for all required resources

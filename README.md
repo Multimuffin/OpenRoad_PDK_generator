@@ -50,7 +50,7 @@ pdk-gen
 ```
 Or, alternatively:
 ```sh
-python -m pdk_generator.cli
+python -m pdk_gen.cli
 ```
 
 ### Notes

@@ -13,7 +13,8 @@ setuptools.setup(
     entry_points={
         "console_scripts": [
             # <skriptname> = <modul>:<funktion>
-            "pdk-gen = pdk_generator.cli:main",
+            "pdk-gen = pdk_gen.cli:main",
+            "pdk-setup = pdk_gen.setup_config:run_setup",  # <--- Setup-Kommando für User-Konfiguration
         ],
     },
     classifiers=[
