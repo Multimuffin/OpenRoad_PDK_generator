@@ -1,6 +1,7 @@
 # PDK Generator
 
 This project is an assistant for quick generation of PDK platforms in OpenROAD.
+It is currently designed for use with the Tower PDK, but additional PDKs will be added in the near future.
 
 ## Features
 - Configuration file (config.mk) will be generated automatically
@@ -9,8 +10,10 @@ This project is an assistant for quick generation of PDK platforms in OpenROAD.
 ## Quick Start (for new users)
 
 ### Prerequisites
+- Git
 - Python 3.10 (or newer)
-- Access to the required tech directories
+- Pyhton Venv (available at python3-venv)
+- Access to the required Tower directories
 
 ### 1. Clone the Repository
 ```sh
@@ -52,13 +55,13 @@ Follow the instructions and specify the paths to the tech and platform root dire
 pdk-gen
 ```
 
-
+<!-- 
 ## Installation
 Python 3.10 and the package `click` are required.
 
 ```sh
 python3.10 -m pip install --user click
-```
+``` -->
 
 ## Usage
 Start the CLI-Tool from the project directory:
