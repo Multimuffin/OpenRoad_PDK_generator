@@ -24,8 +24,7 @@ cd OpenRoad_PDK_generator
 ### 2. Set up local virtual environment
 ```sh
 python3.10 -m venv venv
-source venv/bin/activate.csh  # für tcsh/csh
-# oder: source venv/bin/activate      # für bash/zsh
+source venv/bin/activate.csh #for tcsh
 ```
 
 ### 3. Upgrade pip and setuptools
