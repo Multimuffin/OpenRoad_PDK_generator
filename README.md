@@ -62,12 +62,5 @@ Python 3.10 and the package `click` are required.
 python3.10 -m pip install --user click
 ``` -->
 
-## Usage
-Start the CLI-Tool from the project directory:
-
-```sh
-pdk-gen
-```
-
 ## Licence
 ISDI-Austria
