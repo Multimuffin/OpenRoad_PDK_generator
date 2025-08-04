@@ -12,7 +12,7 @@ It is currently designed for use with the Tower PDK, but additional PDKs will be
 ### Prerequisites
 - Git
 - Python 3.10 (or newer)
-- Pyhton Venv (available at python3-venv)
+- Python Venv (available at python3-venv)
 - Access to the required Tower directories
 
 ### 1. Clone the Repository
