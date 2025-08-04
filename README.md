@@ -7,7 +7,11 @@ It is currently designed for use with the Tower PDK, but additional PDKs will be
 - Configuration file (config.mk) will be generated automatically
 - A local directory structure is created with symbolic links to the source files
 
-## Quick Start (for new users)
+## Disclaimer
+
+Up to this point, the script runs, but some implementations such as the pdn.tcl files or setRC.tcl are missing. However, there are templates in the src folder that need to be customized to ensure a functioning flow.
+
+## Quick Start
 
 ### Prerequisites
 - Git
