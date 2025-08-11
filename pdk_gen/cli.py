@@ -1,3 +1,4 @@
+from logging import config
 import sys
 import logging
 import click
@@ -33,8 +34,7 @@ def main(tech_name: str, verbose: bool):
         print("Bitte zuerst 'pdk-setup' ausführen, um die Pfade zu konfigurieren!")
         sys.exit(1)
 
-    tech_root = config["tech_root"]
-    # platforms_root = config["platforms_root"]  # falls benötigt
+    tech_root = config["tech_roots"]["tower"]
 
     if not tech_name:
         tech_name = list_dir(tech_root, title="Available Technologies")
