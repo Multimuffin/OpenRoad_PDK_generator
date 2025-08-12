@@ -13,10 +13,10 @@ from pdk_gen.lef_utils import find_macros_in_lef
 
 logger = logging.getLogger(__name__)
 
-class ConfigUpdater:
+class ConfigUpdaterDongbu:
     """
-    Load a config.mk template and a JSON args file,
-    update the export variables, and collect symlink tasks.
+    Dongbu-spezifischer ConfigUpdater.
+    Lädt config.mk und modify_args.json, aktualisiert die Export-Variablen und sammelt Symlink-Aufgaben.
     """
     def __init__(self, cfg_path: Path, args_path: Path):
         self.cfg_path = Path(cfg_path)
@@ -34,123 +34,113 @@ class ConfigUpdater:
         self.args = json.loads(self.args_path.read_text())
         self.m_stack = self.args.get("m_stack")
 
-    def apply_all(self, metal_subdir: str = None) -> None:
+    def apply_all(self) -> None:
         """
-        Compute all updated export lines and symlink tasks:
-          - TECH_DIR
-          - TECH_GDS_DIR, TECH_CDL_DIR, TECH_LEF, SC_LEF
-          - LIB_FILES, GDS_LAYER_MAP, CDL_FILE
-        Set TECH_LEF to symlink 'metal_stack.lef' pointing to selected LEF.
+        Dongbu-spezifische Anpassungen für config.mk und Symlinks.
         """
         plat   = self.args["platform_name"]
-        # root   = Path(self.args["project_root"])
-        # scripts= Path(self.args["generation_script_directory"])
-        root   = Path.cwd()  # <--- changed for robust path handling
-        scripts= root / "scripts"
         new_pl = Path(self.args["new_platform"])
-        m_stack = self.args.get("m_stack")
-        
-        # create platform directories
+        m_stack = self.args.get("metal")
+        std_g = self.args["dongbu_std_g"]
+        tech_root = self.args.get("base_path")
+
+        # Dongbu: create platform directories
         create_platform_dirs(new_pl)
-        mlef_dir = new_pl / "lef" / "mlef"
-        sclef_dir = new_pl / "lef" / "sclef"
-        mlef_dir.mkdir(parents=True, exist_ok=True)
-        sclef_dir.mkdir(parents=True, exist_ok=True)
+        dongbu_lef_dir = new_pl / "lef"
+        dongbu_lef_dir.mkdir(parents=True, exist_ok=True)
+        dongbu_lib_dir = new_pl / "lib"
+        dongbu_lib_dir.mkdir(parents=True, exist_ok=True)
+        dongbu_gds_dir = new_pl / "gds"
+        dongbu_gds_dir.mkdir(parents=True, exist_ok=True)
+        dongbu_cdl_dir = new_pl / "cdl"
+        dongbu_cdl_dir.mkdir(parents=True, exist_ok=True)
 
 ################################################################################
 #                                   TECH/LIBS                                  #
 ################################################################################
-        # new TECH_DIR
-        tech_root = self.args.get("tech_root")
+
+        # Dongbu: TECH_DIR
         if not tech_root:
             raise RuntimeError("Missing tech_root in args: cannot build TECH_DIR!")
         tech_dir = Path(tech_root) / plat
         self._update_export("TECH_DIR", [tech_dir])
+        self._update_export("TECH_GDS_DIR", [dongbu_gds_dir])
+        self._update_export("TECH_CDL_DIR", [dongbu_cdl_dir])
 
-        self._update_export("TECH_GDS_DIR", [new_pl / "gds"])
-        self._update_export("TECH_CDL_DIR", [new_pl / "cdl"])
+        # Dongbu: LEF
+        lef_src_dir = tech_dir / "LEF"
+        print(f"Using LEF source directory: {lef_src_dir}")
+        print(f"Metal Stack: {m_stack}")
+        handle_resource(lef_src_dir / "TF", dongbu_lef_dir, f"*{m_stack}_TECH.lef", "TECH_LEF", self)
+        handle_resource(lef_src_dir, dongbu_lef_dir, "*.lef", "SC_LEF", self)
 
-        # new SC_LEF
-        sc_src_dir = tech_dir / "lib" / "lef"
-        handle_resource(sc_src_dir, sclef_dir, "*.lef", "SC_LEF", self)
-
-        # new TECH_LEF
-        if metal_subdir:
-            mlef_src_dir = tech_dir / "tech" / metal_subdir / "lef" / m_stack
-        else:
-            mlef_src_dir = tech_dir / "tech" / "lef" / m_stack
-        handle_resource(mlef_src_dir, mlef_dir, "*.lef", "TECH_LEF", self)
-        print("TECH_LEF Pfade:", list(mlef_dir.glob("*.lef")))
-        print("SC_LEF Pfade:", list(sclef_dir.glob("*.lef")))
-
-        # new LIB_FILES
-        lib_src_dir = tech_dir / "lib" / "liberty"
-        lib_dst_dir = new_pl / "lib"
-        lib_dst_dir.mkdir(parents=True, exist_ok=True)
-        corners = ["ff", "ss", "tt"]
+        # Dongbu: LIB
+        lib_src_dir = tech_dir / "LIBERTY"
+        corners = ["FF", "SS", "TT"]
         all_lib_paths = []
         for corner in corners:
-            paths = handle_resource(lib_src_dir, lib_dst_dir, f"*{corner}*.lib", "LIB_FILES", self, ask_user=True, ui_title=f"LIB-Files for Corner '{corner}'", return_only=True)
-            all_lib_paths.extend(str(p) for p in paths)
-        self._update_export("LIB_FILES", all_lib_paths)
-
-        # new GDS_LAYER_MAP
-        if metal_subdir:
-            gds_map_src_dir = tech_dir / "tech" / metal_subdir / "lef" / m_stack
+            pattern = f"*{corner}*.lib"
+            files = list(lib_src_dir.glob(pattern))
+            if not files:
+                print(f"Keine LIB-Dateien für Corner {corner} gefunden!")
+                continue
+            for file in files:
+                dst = dongbu_lib_dir / file.name
+                from pdk_gen.symlink_utils import create_symlink
+                create_symlink(file, dst)
+                all_lib_paths.append(dst)
+        if all_lib_paths:
+            self._update_export("LIB_FILES", all_lib_paths)
         else:
-            gds_map_src_dir = tech_dir / "tech" / "lef" / m_stack
-        handle_resource(gds_map_src_dir, new_pl / "gds", "*.map", "GDS_LAYER_MAP", self)
+            print("Keine LIB-Dateien gefunden!")
 
-        # new CDL_FILE
-        cdl_src_dir = tech_dir / "lib" / "cdl"
-        cdl_dst_dir = new_pl / "cdl"
-        cdl_dst_dir.mkdir(parents=True, exist_ok=True)
-        handle_resource(cdl_src_dir, cdl_dst_dir, "*.cdl", "CDL_FILE", self, ask_user=True, ui_title="CDL-Dateien")
- 
-        # new GDS_FILE
-        gds_src_dir = tech_dir / "lib" / "gds"
-        gds_dst_dir = new_pl / "gds"
-        gds_dst_dir.mkdir(parents=True, exist_ok=True)
-        handle_resource(gds_src_dir, gds_dst_dir, "*.gds", "GDS_FILE", self)
+        # Dongbu: GDS
+        gds_src_dir = Path(tech_root) / std_g / "GDS"
+        handle_resource(gds_src_dir, dongbu_gds_dir, "*.gds", "GDS_FILE", self)
+        handle_resource(gds_src_dir, dongbu_gds_dir, "*.map", "GDS_LAYER_MAP", self)
+
+        # Dongbu: CDL
+        cdl_src_dir = Path(tech_root) / std_g / "CDL"
+        handle_resource(cdl_src_dir, dongbu_cdl_dir, "*.cdl", "CDL_FILE", self, ask_user=True, ui_title="CDL-Files")
 
 ################################################################################
 #                               Synth Variables                                #
 ################################################################################
-        
- 
-        self._update_export("ABC_DRIVER_CELL", [cell_name_with_wb(plat, "BUF_X8_18_SVT")])
-        self._update_export("TIEHI_CELL_AND_PORT", [cell_name_with_wb(plat, "TIEH_18_SVT", "", "Q")])
-        self._update_export("TIELO_CELL_AND_PORT", [cell_name_with_wb(plat, "TIEL_18_SVT", "", "Q")])
-        self._update_export("MIN_BUF_CELL_AND_PORTS", [cell_name_with_wb(plat, "BUF_X2_18_SVT", "", "A", "Q")])
+
+        self._update_export("ABC_DRIVER_CELL", ["NID2"])
+        self._update_export("TIEHI_CELL_AND_PORT", ["TIEH Z"])
+        self._update_export("TIELO_CELL_AND_PORT", ["TIEL Z"])
+        self._update_export("MIN_BUF_CELL_AND_PORTS", ["NID0 A Z"])
 
 ################################################################################
 #                                  Floorplan                                   #
 ################################################################################
 
-        if str(m_stack).startswith('3'):
-            self._update_export("IO_PLACER_H", ["TOP_M"])
-        elif str(m_stack).startswith('2'):
-            self._update_export("IO_PLACER_H", ["M1"])
-            self._update_export("IO_PLACER_V", ["TOP_M"])
-
-        self._update_export("TAP_CELL_NAME", [cell_name_with_wb(plat, "FILLTIE_18_SVT")])
-
+        if str(m_stack).startswith('M3'):
+            self._update_export("IO_PLACER_H", ["M3"])
+            self._update_export("IO_PLACER_V", ["M2"])
+        else:
+            self._update_export("IO_PLACER_H", ["M3"])
+            self._update_export("IO_PLACER_V", ["M4"])
 
 ################################################################################
 #                                    Place                                     #
 ################################################################################
 
-
-
 ################################################################################
 #                                     CTS                                      #
 ################################################################################
 
-        self._update_export("FILL_CELLS", [find_macros_in_lef(next(sclef_dir.glob("*.lef")), "FILLER_")])
+        sc_lef = [f for f in dongbu_lef_dir.glob("*.lef") if f"_{m_stack}_" not in f.name]
+        print("SC_LEF files:", sc_lef[0])
+        self._update_export("FILL_CELLS", [find_macros_in_lef(next(iter(sc_lef)), "FILL")])
+
 
 ################################################################################
 #                                    Route                                     #
 ################################################################################
+
+        self._update_export("MAX_ROUTING_LAYER", ["M" + str(m_stack)[0]])
 
 
 

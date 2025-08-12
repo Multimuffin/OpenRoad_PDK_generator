@@ -29,7 +29,7 @@ def generate_platform(tech_name: str, m_stack: str, metal_subdir=None) -> None:
     platforms_dir = Path(config["platforms_root"])
     target_dir   = platforms_dir / f"{tech_name}_{m_stack}"
 
-    template_cfg = project_root / "src" / "config.mk"
+    template_cfg = project_root / "src" / "tower" / "config.mk"
     target_cfg   = target_dir / "config.mk"
     args_json    = target_dir / "modify_args.json"
 

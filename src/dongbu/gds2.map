@@ -1,0 +1,25 @@
+#
+# Layer mapping table for DBHiTeK IL11SJ
+#
+#-----------------------------------------------------------------------------
+# Layer/ Object Name Layer/ Object Type Layer Number Datatype
+# <t_ layerObjectName> <t_ objectType> <n_ layerNum> <n_ datatype>
+POLY            NET                             6       0
+M1C             VIA                             9       0
+M1		NET,SPNET,VIA,FILL,PIN 	 	10	0
+M2		NET,SPNET,VIA,FILL,PIN		12	0
+M3		NET,SPNET,VIA,FILL,PIN		14	0
+M4		NET,SPNET,VIA,FILL,PIN		16	0
+M5		NET,SPNET,VIA,FILL,PIN		18	0
+M6		NET,SPNET,VIA,FILL,PIN		20	0
+VIA1		VIA				11	0
+VIA2		VIA				13	0
+VIA3		VIA				15	0
+VIA4		VIA				17	0
+VIA5		VIA				19	0
+NAME		M1/LABEL			155	1
+NAME		M2/LABEL			156	1
+NAME		M3/LABEL			157	1
+NAME		M4/LABEL			158	1
+NAME		M5/LABEL			159	1
+NAME		M6/LABEL			160	1

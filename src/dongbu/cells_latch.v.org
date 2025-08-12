@@ -1,0 +1,16 @@
+module \$_DLATCH_N_ (
+    output Q,
+    input E,
+    input D
+    );
+  wire EN;
+  INV_X1_18_SVT_WB _TECHMAP_INV (
+      .Q(EN),
+      .A(E)
+  );
+  TLATNCA_X2_18_SVT_WB _TECHMAP_LATCH (
+      .ECK(Q),
+      .E(EN),
+      .CK(D),
+  );
+endmodule
