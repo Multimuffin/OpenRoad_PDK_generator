@@ -76,7 +76,7 @@ class ConfigUpdaterDongbu:
 
         # Dongbu: LIB
         lib_src_dir = tech_dir / "LIBERTY"
-        corners = ["FF", "SS", "TT"]
+        corners = ["TT", "SS", "FF"]
         all_lib_paths = []
         for corner in corners:
             pattern = f"*{corner}*.lib"
@@ -132,7 +132,6 @@ class ConfigUpdaterDongbu:
 ################################################################################
 
         sc_lef = [f for f in dongbu_lef_dir.glob("*.lef") if f"_{m_stack}_" not in f.name]
-        print("SC_LEF files:", sc_lef[0])
         self._update_export("FILL_CELLS", [find_macros_in_lef(next(iter(sc_lef)), "FILL")])
 
 

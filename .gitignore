@@ -1,0 +1,10 @@
+# Ignore build files
+build/
+
+# Ignore .pdkgenrc
+.pdkgenrc
+
+# Ignore all platforms folders
+platforms/
+
+pdk_generator.egg-info/
