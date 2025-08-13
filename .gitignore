@@ -3,3 +3,4 @@ build/
 platforms/
 pdk_generator.egg-info/
 pdkgen.log
+pdk_gen/_pychache_/
