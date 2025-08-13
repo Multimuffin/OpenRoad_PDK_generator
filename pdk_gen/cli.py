@@ -1,4 +1,3 @@
-from logging import config
 import sys
 import logging
 import click
@@ -13,6 +12,10 @@ from .ui_utils import list_dir
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler("pdkgen.log")
+    ]
 )
 logger = logging.getLogger(__name__)
 

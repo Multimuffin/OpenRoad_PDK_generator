@@ -60,8 +60,6 @@ def generate_platform_dongbu(tech_name: str) -> None:
     target_dir = platforms_dir / f"{selected_std}_{m_stack}"
     print(f"Creating platform directory: {target_dir}")
 
-    template_cfg = project_root / "src" / "dongbu" / "config.mk"
-    target_cfg   = target_dir / "config.mk"
     args_json    = target_dir / "modify_args.json"
 
     # 4) Create (or empty) target directory
@@ -71,10 +69,29 @@ def generate_platform_dongbu(tech_name: str) -> None:
         logger.info(f"Creating platform directory: {target_dir}")
         target_dir.mkdir(parents=True, exist_ok=True)
 
-    # 5) Copy template and write JSON
-    logger.info(f"Copying template config.mk to {target_cfg}")
-    shutil.copy2(template_cfg, target_cfg)
-    logger.info(f"Copying template gds2.map to {target_cfg}")
+    # 5) Copy templates
+    logger.info(f"Copying template config.mk to {target_dir / 'config.mk'}")
+    shutil.copy2(project_root / "src" / "dongbu" / "config.mk", target_dir / "config.mk")
+    logger.info(f"Copying template gds2.map to {target_dir / 'gds2.map'}")
+    shutil.copy2(project_root / "src" / "dongbu" / "gds2.map", target_dir / "gds2.map")
+    logger.info(f"Copying template constraint.sdc to {target_dir / 'constraint.sdc'}")
+    shutil.copy2(project_root / "src" / "dongbu" / "constraint.sdc", target_dir / "constraint.sdc")
+    logger.info(f"Copying template fastroute.tcl to {target_dir / 'fastroute.tcl'}")
+    shutil.copy2(project_root / "src" / "dongbu" / "fastroute.tcl", target_dir / "fastroute.tcl")
+    logger.info(f"Copying template il11sj.lyp to {target_dir / 'il11sj.lyp'}")
+    shutil.copy2(project_root / "src" / "dongbu" / "il11sj.lyp", target_dir / "il11sj.lyp")
+    logger.info(f"Copying template il11sj.lyt to {target_dir / 'il11sj.lyt'}")
+    shutil.copy2(project_root / "src" / "dongbu" / "il11sj.lyt", target_dir / "il11sj.lyt")
+    logger.info(f"Copying template make_tracks.tcl to {target_dir / 'make_tracks.tcl'}")
+    shutil.copy2(project_root / "src" / "dongbu" / "make_tracks.tcl", target_dir / "make_tracks.tcl")
+    logger.info(f"Copying template pdn.tcl to {target_dir / 'pdn.tcl'}")
+    shutil.copy2(project_root / "src" / "dongbu" / "pdn.tcl", target_dir / "pdn.tcl")
+    logger.info(f"Copying template setRC.tcl to {target_dir / 'setRC.tcl'}")
+    shutil.copy2(project_root / "src" / "dongbu" / "setRC.tcl", target_dir / "setRC.tcl")
+
+
+    template_cfg = project_root / "src" / "dongbu" / "config.mk"
+    target_cfg   = target_dir / "config.mk"
 
     payload = {
         "platform_name": selected_std,
