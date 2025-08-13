@@ -16,8 +16,8 @@ export LIB_FILES = $(TECH_DIR)/lib/liberty/...tt \
 		   $(TECH_DIR)/lib/liberty/...ff \
                      $(ADDITIONAL_LIBS)
 
-export GDS_FILES = $(wildcard $(TECH_GDS_DIR)/*.gds) \
-                     $(ADDITIONAL_GDS)
+export GDS_FILES = $(wildcard $(TECH_GDS_DIR)/*.gds)
+
 export GDS_LAYER_MAP = $(PLATFORM_DIR)/gds/... .map
 
 export CDL_FILE = $(wildcard $(TECH_CDL_DIR)/*.cdl)

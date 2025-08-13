@@ -1,7 +1,7 @@
 # PDK Generator
 
 This project is an assistant for quick generation of PDK platforms in OpenROAD.
-It is currently designed for use with the Tower PDK, but additional PDKs will be added in the near future.
+It was designed exclusively for tower and dbhitek technologies.
 
 ## Features
 - Configuration file (config.mk) will be generated automatically

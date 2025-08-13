@@ -17,8 +17,8 @@ export LIB_FILES = $(TECH_DIR)/LIBERTY/...TT_1P5V_25C.lib \
 		   $(TECH_DIR)/LIBERTY/...FF_1P65V_M40C.lib \
                      $(ADDITIONAL_LIBS)
 
-export GDS_FILES = $(wildcard $(TECH_GDS_DIR)/*.gds) \
-                     $(ADDITIONAL_GDS)
+export GDS_FILES = $(wildcard $(TECH_GDS_DIR)/*.gds)
+
 export GDS_LAYER_MAP = $(PLATFORM_DIR)/gds/gds2.map
 
 export CDL_FILE = $(wildcard $(TECH_CDL_DIR)/*.cdl) \
