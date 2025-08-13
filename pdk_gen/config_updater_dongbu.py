@@ -1,11 +1,11 @@
 import json
-import re
+#import re
 from pathlib import Path
 import logging
 from pdk_gen.dir_utils import create_platform_dirs
-from pdk_gen.file_finder import find_lib_files_by_corner
-from pdk_gen.ui_utils import list_dir
-from pdk_gen.symlink_utils import handle_resource, cell_name_with_wb
+#from pdk_gen.file_finder import find_lib_files_by_corner
+#from pdk_gen.ui_utils import list_dir
+from pdk_gen.symlink_utils import handle_resource#, cell_name_with_wb
 from pdk_gen.lef_utils import find_macros_in_lef
 
 #from pdk_gen.symlink_utils import create_symlink
@@ -96,7 +96,7 @@ class ConfigUpdaterDongbu:
 
         # Dongbu: GDS
         gds_src_dir = Path(tech_root) / std_g / "GDS"
-        handle_resource(gds_src_dir, dongbu_gds_dir, "*.gds", "GDS_FILE", self)
+        handle_resource(gds_src_dir, dongbu_gds_dir, "*.gds", "GDS_FILES", self)
         handle_resource(gds_src_dir, dongbu_gds_dir, "*.map", "GDS_LAYER_MAP", self)
 
         # Dongbu: CDL

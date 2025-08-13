@@ -1,10 +1,10 @@
 import json
-import re
+#import re
 from pathlib import Path
 import logging
 from pdk_gen.dir_utils import create_platform_dirs
-from pdk_gen.file_finder import find_lib_files_by_corner
-from pdk_gen.ui_utils import list_dir
+#from pdk_gen.file_finder import find_lib_files_by_corner
+#from pdk_gen.ui_utils import list_dir
 from pdk_gen.symlink_utils import handle_resource, cell_name_with_wb
 from pdk_gen.lef_utils import find_macros_in_lef
 

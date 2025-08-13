@@ -1,7 +1,7 @@
 from pathlib import Path
 import sys
 import os
-import re
+#import re
 
 def list_dir(src, title="Available Options", width=4):
     """

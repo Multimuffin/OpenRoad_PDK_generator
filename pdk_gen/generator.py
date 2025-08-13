@@ -1,11 +1,11 @@
 import json
 import shutil
-import subprocess
+#import subprocess
 from pathlib import Path
 import logging
 from .setup_config import load_user_config
 
-from .file_finder import list_subdirs
+#from .file_finder import list_subdirs
 from .symlink_utils import batch_symlink
 from .config_updater import ConfigUpdater
 
