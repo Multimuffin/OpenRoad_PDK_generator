@@ -17,7 +17,7 @@ def handle_resource(
     dst_dir.mkdir(parents=True, exist_ok=True)
     files = list(src_dir.glob(pattern))
     if not files:
-        print(f"Keine Dateien für {export_key} gefunden!")
+        print(f"No files found for {export_key}!")
         return
     if ask_user and len(files) > 1:
         names = [f.name for f in files]
@@ -31,8 +31,8 @@ def handle_resource(
 
 def cell_name_with_wb(platform_name: str, base: str, suffix: str = "", *args: str) -> str:
     """
-    Liefert den Zellnamen mit oder ohne _WB, je nach Platform-Name.
-    Zusätzliche Argumente werden angehängt (z.B. Ports).
+    Returns the cell name with or without _WB, depending on the platform name.
+    Additional arguments are appended (e.g. ports).
     """
     wb = "_WB" if "_wb" in platform_name else ""
     cell = f"{base}{wb}{suffix}"

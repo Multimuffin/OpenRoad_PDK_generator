@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 
 class ConfigUpdaterDongbu:
     """
-    Dongbu-spezifischer ConfigUpdater.
-    Lädt config.mk und modify_args.json, aktualisiert die Export-Variablen und sammelt Symlink-Aufgaben.
+    Dongbu-specific ConfigUpdater.
+    Loads config.mk and modify_args.json, updates the export variables, and collects symlink tasks.
     """
     def __init__(self, cfg_path: Path, args_path: Path):
         self.cfg_path = Path(cfg_path)
@@ -36,8 +36,7 @@ class ConfigUpdaterDongbu:
 
     def apply_all(self) -> None:
         """
-        Dongbu-spezifische Anpassungen für config.mk und Symlinks.
-        """
+        Dongbu-specific adjustments for config.mk and symlinks.        """
         plat   = self.args["platform_name"]
         new_pl = Path(self.args["new_platform"])
         m_stack = self.args.get("metal")
@@ -82,7 +81,7 @@ class ConfigUpdaterDongbu:
             pattern = f"*{corner}*.lib"
             files = list(lib_src_dir.glob(pattern))
             if not files:
-                print(f"Keine LIB-Dateien für Corner {corner} gefunden!")
+                print(f"No LIB files found for corner {corner}!")
                 continue
             for file in files:
                 dst = dongbu_lib_dir / file.name
@@ -92,7 +91,7 @@ class ConfigUpdaterDongbu:
         if all_lib_paths:
             self._update_export("LIB_FILES", all_lib_paths)
         else:
-            print("Keine LIB-Dateien gefunden!")
+            print("No Lib files found!")
 
         # Dongbu: GDS
         gds_src_dir = Path(tech_root) / std_g / "GDS"

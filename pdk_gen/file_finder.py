@@ -35,7 +35,7 @@ def list_subdirs(directory: Path, reverse: bool = False) -> List[Path]:
 
 def find_lib_files_by_corner(lib_dir: Path, corner: str):
     """
-    Liefert alle LIB-Dateien im Verzeichnis, die zum Corner (ff, tt, ss) passen.
+    Returns all LIB files in the directory that match the corner (ff, tt, ss).
     """
     pattern = f"*_{corner}_*.lib"
     return list(lib_dir.glob(pattern))

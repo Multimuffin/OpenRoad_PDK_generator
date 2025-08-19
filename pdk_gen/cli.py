@@ -37,7 +37,7 @@ def main(tech_name: str, technology: str, verbose: bool):
     try:
         config = load_user_config()
     except Exception:
-        print("Bitte zuerst 'pdk-setup' ausführen, um die Pfade zu konfigurieren!")
+        print("First run ‘pdk-setup’ to configure the paths.!")
         sys.exit(1)
 
     # Select technology if not provided
