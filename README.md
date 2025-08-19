@@ -68,9 +68,9 @@ python3.10 -m pip install --user click
 At the beginning, the user must specify the source paths so that the script can function properly. If a technology is not required, it can be left blank.
 
 After executing the main script, the user is asked which technology, metal stack, lib files, etc. they want to use. The program then performs the following steps:
--Creates a cdl, gds, lef, lib folder with symbolic links to the original files.
--Copies the config.mk template and updates its paths.
--Copies pdn.tcl, setRC.tcl, make_tracks.tcl, fastroute.tcl, and constraint.sdc (These files are **NOT** modified).
+- Creates a cdl, gds, lef, lib folder with symbolic links to the original files.
+- Copies the config.mk template and updates its paths.
+- Copies pdn.tcl, setRC.tcl, make_tracks.tcl, fastroute.tcl, and constraint.sdc (These files are **NOT** modified).
 
 ## Disclaimer
 
