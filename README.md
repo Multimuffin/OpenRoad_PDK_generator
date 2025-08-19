@@ -7,16 +7,13 @@ It was designed exclusively for tower and dbhitek technologies.
 - Configuration file (config.mk) will be generated automatically
 - A local directory structure is created with symbolic links to the source files
 
-## Disclaimer
-
-Up to this point, the script runs, but some implementations such as the pdn.tcl files or setRC.tcl are missing. However, there are templates in the src folder that need to be customized to ensure a functioning flow.
-
 ## Quick Start
 
 ### Prerequisites
 - Git
 - Python 3.10 (or newer)
 - Python Venv (available at python3-venv)
+> It is recommended running the programm in a virtual enviroment, in order to avoid conflicts with globally insalled python packages.
 - Access to the required Tower directories
 
 ### 1. Clone the Repository
@@ -65,6 +62,19 @@ Python 3.10 and the package `click` are required.
 ```sh
 python3.10 -m pip install --user click
 ``` -->
+
+## Work flow
+
+At the beginning, the user must specify the source paths so that the script can function properly. If a technology is not required, it can be left blank.
+
+After executing the main script, the user is asked which technology, metal stack, lib files, etc. they want to use. The program then performs the following steps:
+-Creates a cdl, gds, lef, lib folder with symbolic links to the original files.
+-Copies the config.mk template and updates its paths.
+-Copies pdn.tcl, setRC.tcl, make_tracks.tcl, fastroute.tcl, and constraint.sdc (These files are **NOT** modified).
+
+## Disclaimer
+
+Up to this point, the script runs, but some implementations such as the pdn.tcl files or setRC.tcl are not modified. However, the templates that originate in the src folder provide a good orientation for further implementiation.
 
 ## Licence
 ISDI-Austria
