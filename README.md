@@ -13,7 +13,7 @@ It was designed exclusively for tower and dbhitek technologies.
 - Git
 - Python 3.10 (or newer)
 - Python Venv (available at python3-venv)
-> It is recommended running the programm in a virtual enviroment, in order to avoid conflicts with globally insalled python packages.
+> It is recommended running the program in a virtual environment, in order to avoid conflicts with globally installed python packages.
 - Access to the required Tower directories
 
 ### 1. Clone the Repository
@@ -74,7 +74,7 @@ After executing the main script, the user is asked which technology, metal stack
 
 ## Disclaimer
 
-Up to this point, the script runs, but some implementations such as the pdn.tcl files or setRC.tcl are not modified. However, the templates that originate in the src folder provide a good orientation for further implementiation.
+Up to this point, the script runs, but some features such as the pdn.tcl files or setRC.tcl are not implemented. However, the templates that originate in the src folder provide a good orientation for further implementation.
 
-## Licence
+## License
 ISDI-Austria
