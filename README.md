@@ -74,7 +74,7 @@ After executing the main script, the user is asked which technology, metal stack
 
 ## Disclaimer
 
-Up to this point, the script runs, but some features such as the pdn.tcl files or setRC.tcl are not implemented. However, the templates that originate in the src folder provide a good orientation for further implementation.
+Up to this point, the script runs, but some features, such as the modifications of the pdn.tcl files or setRC.tcl are not implemented. However, the templates that originate in the src folder provide some orientation for further implementation.
 
 ## License
 ISDI-Austria
