@@ -6,6 +6,7 @@ It was designed exclusively for tower and dbhitek technologies.
 ## Features
 - Configuration file (config.mk) will be generated automatically
 - A local directory structure is created with symbolic links to the source files
+- **Unused code detection** - Identify and clean up unused functions, imports, files, and variables
 
 ## Quick Start
 

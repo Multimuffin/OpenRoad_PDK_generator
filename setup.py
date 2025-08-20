@@ -15,6 +15,7 @@ setuptools.setup(
             # <skriptname> = <modul>:<funktion>
             "pdk-gen = pdk_gen.cli:main",
             "pdk-setup = pdk_gen.setup_config:run_setup",  # <--- Setup-Kommando für User-Konfiguration
+            "pdk-unused = pdk_gen.unused_code_detector:main",  # <--- Unused code detection
         ],
     },
     classifiers=[

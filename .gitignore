@@ -4,3 +4,6 @@ platforms/
 pdk_generator.egg-info/
 pdkgen.log
 pdk_gen/_pychache_/
+__pycache__/
+*.pyc
+*.pyo
