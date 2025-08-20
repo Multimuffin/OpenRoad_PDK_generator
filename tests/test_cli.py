@@ -3,7 +3,7 @@ from click.testing import CliRunner
 from unittest.mock import patch
 import sys
 
-import pdk_generator.cli as cli_mod
+import pdk_gen.cli as cli_mod
 
 class TestCLI(unittest.TestCase):
     def test_cli_help(self):

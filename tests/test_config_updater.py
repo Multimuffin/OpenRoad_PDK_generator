@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 import json
-from pdk_generator.config_updater import ConfigUpdater
+from pdk_gen.config_updater import ConfigUpdater
 
 SAMPLE_CFG = """
 export FOO = old

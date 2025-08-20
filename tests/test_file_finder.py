@@ -1,6 +1,6 @@
 import unittest
 from pathlib import Path
-from pdk_generator.file_finder import natural_key, find_all, find_first, list_subdirs
+from pdk_gen.file_finder import natural_key, find_all, find_first, list_subdirs
 
 class TestFileFinder(unittest.TestCase):
     def test_natural_key_sorting(self):

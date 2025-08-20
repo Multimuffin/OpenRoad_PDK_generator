@@ -1,6 +1,6 @@
 import unittest
 from pathlib import Path
-from pdk_generator.symlink_utils import create_symlink
+from pdk_gen.symlink_utils import create_symlink
 import tempfile
 
 class TestSymlinkUtils(unittest.TestCase):
@@ -20,7 +20,6 @@ class TestSymlinkUtils(unittest.TestCase):
             src2.write_text("world")
             create_symlink(src2, dst, overwrite=True)
             self.assertEqual(dst.read_text(), "world")
-            input()
 
 if __name__ == "__main__":
     unittest.main()
