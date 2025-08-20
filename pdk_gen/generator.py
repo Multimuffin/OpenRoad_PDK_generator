@@ -53,6 +53,8 @@ def generate_platform(tech_name: str, m_stack: str, metal_subdir=None) -> None:
         "new_platform": str(target_dir),
         "config_template": str(template_cfg),
         "config_file": str(target_cfg),
+        "tech_root": config["tech_roots"]["tower"]
+
     }
     logger.debug(f"Writing modify_args.json: {payload}")
     with args_json.open("w") as f:
