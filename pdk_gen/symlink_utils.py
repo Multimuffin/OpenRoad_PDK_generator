@@ -11,7 +11,6 @@ def create_symlink(src: Path, dst: Path, overwrite: bool = True) -> None:
     src = Path(src)
     dst = Path(dst)
 
-    # Ensure parent directory exists
     dst.parent.mkdir(parents=True, exist_ok=True)
 
     if overwrite and dst.exists() or dst.is_symlink():

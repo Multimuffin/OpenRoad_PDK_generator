@@ -1,6 +1,5 @@
 import json
 from pathlib import Path
-#import os
 
 def run_setup():
     config_path = Path.cwd() / ".pdkgenrc"

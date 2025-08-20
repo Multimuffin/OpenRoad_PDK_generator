@@ -1,11 +1,8 @@
 import json
 import shutil
-#import subprocess
 from pathlib import Path
 import logging
 from .setup_config import load_user_config
-
-#from .file_finder import list_subdirs
 from .symlink_utils import batch_symlink
 from .config_updater import ConfigUpdater
 
@@ -63,11 +60,10 @@ def generate_platform(tech_name: str, m_stack: str, metal_subdir=None) -> None:
     # 4) Update config.mk via ConfigUpdater
     updater = ConfigUpdater(cfg_path=target_cfg, args_path=args_json)
     updater.load()
-    updater.apply_all(metal_subdir=metal_subdir)   # handles TECH_DIR, TECH_LEF, etc.
+    updater.apply_all(metal_subdir=metal_subdir)
     updater.write()
 
     # 5) Create symlinks for all required resources
-    #    Assume updater.symlink_pairs is a list of (src_path, dst_path)
     symlink_pairs = updater.symlink_pairs
     batch_symlink(symlink_pairs)
 

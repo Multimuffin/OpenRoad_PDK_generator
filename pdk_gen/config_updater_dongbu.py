@@ -1,15 +1,9 @@
 import json
-#import re
 from pathlib import Path
 import logging
 from pdk_gen.dir_utils import create_platform_dirs
-#from pdk_gen.file_finder import find_lib_files_by_corner
-#from pdk_gen.ui_utils import list_dir
-from pdk_gen.symlink_utils import handle_resource#, cell_name_with_wb
+from pdk_gen.symlink_utils import handle_resource
 from pdk_gen.lef_utils import find_macros_in_lef
-
-#from pdk_gen.symlink_utils import create_symlink
-
 
 logger = logging.getLogger(__name__)
 
@@ -167,20 +161,15 @@ class ConfigUpdaterDongbu:
             new_block.append(f"{prefix} = {paths[0]} \\\n")
             for p in paths[1:]:
                 new_block.append(f"\t{p} \\\n")
-
-        # find and replace existing block
         i = 0
         while i < len(self.lines):
             if self.lines[i].startswith(prefix):
                 j = i + 1
                 while j < len(self.lines) and self.lines[j].rstrip().endswith("\\"):
                     j += 1
-                # replace lines[i:j] with new_block
                 self.lines[i:j] = new_block
                 return
             i += 1
-
-        # if not found, append at end
         self.lines.extend(new_block)
 
     def _find_first(self, directory: Path, pattern: str) -> Path:

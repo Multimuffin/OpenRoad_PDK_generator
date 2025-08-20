@@ -7,7 +7,7 @@ def create_platform_dirs(base_dir: Path) -> None:
     """
     Create all required subdirectories for a new platform.
     """
-    for sub in ["gds", "cdl", "lef", "lib"]: # Add any other necessary subdirectories here
+    for sub in ["gds", "cdl", "lef", "lib"]:
         dir_path = base_dir / sub
         dir_path.mkdir(parents=True, exist_ok=True)
         logger.debug(f"Created directory: {dir_path}")

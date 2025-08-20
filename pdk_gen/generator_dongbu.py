@@ -2,7 +2,6 @@ import logging
 from pathlib import Path
 from .setup_config import load_user_config
 from .symlink_utils import batch_symlink
-#from .config_updater import ConfigUpdater
 from .config_updater_dongbu import ConfigUpdaterDongbu
 from .ui_utils import list_dir
 import shutil
@@ -28,7 +27,7 @@ def generate_platform_dongbu(tech_name: str) -> None:
 
     # 1) Use provided base directory (il11sj or is18sh)
     dongbu_root = config["tech_roots"]["dongbu"]
-    base_path = Path(dongbu_root) / tech_name #/opt/tech/dbhitek/digital/il11sj
+    base_path = Path(dongbu_root) / tech_name
 
     # 2) Automatically select relevant STD directory (without _G_ or _S_)
     std_dirs = [d.name for d in base_path.iterdir() if d.is_dir() and d.name.startswith("DBH_STD") and "_G_" not in d.name and "_S_" not in d.name]
@@ -45,7 +44,6 @@ def generate_platform_dongbu(tech_name: str) -> None:
     metal_stack_files = [f.name for f in lef_tf_dir.glob("*_TECH.lef") if f.is_file()]
     stack_options = []
     for fname in metal_stack_files:
-        # Extract e.g. '3M' from 'DBH_1533IL11SJ_GE1P5V_3M_TECH.lef'
         parts = fname.split('_')
         for part in parts:
             if part.endswith('M') and part[:-1].isdigit():
