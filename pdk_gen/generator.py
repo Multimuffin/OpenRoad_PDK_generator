@@ -37,9 +37,24 @@ def generate_platform(tech_name: str, m_stack: str, metal_subdir=None) -> None:
         logger.info(f"Creating platform directory: {target_dir}")
     target_dir.mkdir(parents=True, exist_ok=True)
 
-    # 3) Copy template and write JSON
-    logger.info(f"Copying template config.mk to {target_cfg}")
-    shutil.copy2(template_cfg, target_cfg)
+    # 3) Copy templates
+
+    logger.info(f"Copying template config.mk to {target_dir / 'config.mk'}")
+    shutil.copy2(project_root / "src" / "tower" / "config.mk", target_dir / "config.mk")
+    logger.info(f"Copying template constraint.sdc to {target_dir / 'constraint.sdc'}")
+    shutil.copy2(project_root / "src" / "tower" / "constraint.sdc", target_dir / "constraint.sdc")
+    logger.info(f"Copying template fastroute.tcl to {target_dir / 'fastroute.tcl'}")
+    shutil.copy2(project_root / "src" / "tower" / "fastroute.tcl", target_dir / "fastroute.tcl")
+    logger.info(f"Copying template il11sj.lyt to {target_dir / 'tower.lyt'}")
+    shutil.copy2(project_root / "src" / "tower" / "tower.lyt", target_dir / "tower.lyt")
+    logger.info(f"Copying template make_tracks.tcl to {target_dir / 'make_tracks.tcl'}")
+    shutil.copy2(project_root / "src" / "tower" / "make_tracks.tcl", target_dir / "make_tracks.tcl")
+    logger.info(f"Copying template pdn.tcl to {target_dir / 'pdn.tcl'}")
+    shutil.copy2(project_root / "src" / "tower" / "pdn.tcl", target_dir / "pdn.tcl")
+    logger.info(f"Copying template setRC.tcl to {target_dir / 'setRC.tcl'}")
+    shutil.copy2(project_root / "src" / "tower" / "setRC.tcl", target_dir / "setRC.tcl")
+
+
 
     payload = {
         "platform_name": tech_name,
