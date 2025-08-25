@@ -55,6 +55,9 @@ Follow the instructions and specify the paths to the tech and platform root dire
 pdk-gen
 ```
 
+###
+Don't forget do deactivate venv before running the flow!
+
 <!-- 
 ## Installation
 Python 3.10 and the package `click` are required.
