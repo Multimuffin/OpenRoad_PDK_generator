@@ -14,7 +14,7 @@ It was designed exclusively for tower and dbhitek technologies.
 - Python 3.10 (or newer)
 - Python Venv (available at python3-venv)
 > It is recommended running the program in a virtual environment, in order to avoid conflicts with globally installed python packages.
-- Access to the required Tower directories
+- Access to the required Tower/Dbhitek directories
 
 ### 1. Clone the Repository
 ```sh
