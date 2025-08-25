@@ -109,9 +109,24 @@ class ConfigUpdater:
         
  
         self._update_export("ABC_DRIVER_CELL", [cell_name_with_wb(plat, "BUF_X8_18_SVT")])
-        self._update_export("TIEHI_CELL_AND_PORT", [cell_name_with_wb(plat, "TIEH_18_SVT", "", "Q")])
-        self._update_export("TIELO_CELL_AND_PORT", [cell_name_with_wb(plat, "TIEL_18_SVT", "", "Q")])
-        self._update_export("MIN_BUF_CELL_AND_PORTS", [cell_name_with_wb(plat, "BUF_X2_18_SVT", "", "A", "Q")])
+
+        tieh_macro_name = self.find_macro_in_lef(sclef_dir, "TIEH")
+        if tieh_macro_name:
+            self._update_export("TIEHI_CELL_AND_PORT", [f"{tieh_macro_name} Q"])
+        else:
+            self._update_export("TIEHI_CELL_AND_PORT", [cell_name_with_wb(plat, "TIEH_18_SVT", "", "Q")])
+
+        tiel_macro_name = self.find_macro_in_lef(sclef_dir, "TIEL")
+        if tiel_macro_name:
+            self._update_export("TIELO_CELL_AND_PORT", [f"{tiel_macro_name} Q"])
+        else:
+            self._update_export("TIELO_CELL_AND_PORT", [cell_name_with_wb(plat, "TIEL_18_SVT", "", "Q")])
+
+        minbuf_macro_name = self.find_macro_in_lef(sclef_dir, "BUF_X2_")
+        if minbuf_macro_name:
+            self._update_export("MIN_BUF_CELL_AND_PORTS", [f"{minbuf_macro_name} A Q"])
+        else:
+            self._update_export("MIN_BUF_CELL_AND_PORTS", [cell_name_with_wb(plat, "BUF_X2_18_SVT", "", "A", "Q")])
 
 ################################################################################
 #                                  Floorplan                                   #
@@ -123,8 +138,11 @@ class ConfigUpdater:
             self._update_export("IO_PLACER_H", ["M1"])
             self._update_export("IO_PLACER_V", ["TOP_M"])
 
-        self._update_export("TAP_CELL_NAME", [cell_name_with_wb(plat, "FILLTIE_18_SVT")])
-
+        filltie_macro_name = self.find_macro_in_lef(sclef_dir, "FILLTIE")
+        if filltie_macro_name:
+            self._update_export("TAP_CELL_NAME", [filltie_macro_name])
+        else:
+            self._update_export("TAP_CELL_NAME", [cell_name_with_wb(plat, "FILLTIE_18_SVT")])
 
 ################################################################################
 #                                    Place                                     #
@@ -184,3 +202,12 @@ class ConfigUpdater:
         if result is None:
             raise FileNotFoundError(f"No files '{pattern}' in {directory}")
         return result
+
+    def find_macro_in_lef(self, lef_dir: Path, macro_prefix: str) -> str | None:
+        """Search all LEF files in lef_dir for a macro starting with 'MACRO <macro_prefix>' and return its name."""
+        for lef_file in lef_dir.glob("*.lef"):
+            with open(lef_file, "r") as f:
+                for line in f:
+                    if line.startswith(f"MACRO {macro_prefix}"):
+                        return line.split()[1] if len(line.split()) > 1 else None
+        return None
