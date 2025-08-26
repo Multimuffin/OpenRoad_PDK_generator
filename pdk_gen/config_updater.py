@@ -107,8 +107,11 @@ class ConfigUpdater:
 #                               Synth Variables                                #
 ################################################################################
         
- 
-        self._update_export("ABC_DRIVER_CELL", [cell_name_with_wb(plat, "BUF_X8_18_SVT")])
+        abc_macro_name = self.find_macro_in_lef(sclef_dir, "BUF_X8_")
+        if abc_macro_name:
+            self._update_export("ABC_DRIVER_CELL", [abc_macro_name])
+        else:
+            self._update_export("ABC_DRIVER_CELL", [cell_name_with_wb(plat, "BUF_X8_18_SVT")])
 
         tieh_macro_name = self.find_macro_in_lef(sclef_dir, "TIEH")
         if tieh_macro_name:
