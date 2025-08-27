@@ -36,6 +36,7 @@ class ConfigUpdaterDongbu:
         m_stack = self.args.get("metal")
         std_g = self.args["dongbu_std_g"]
         tech_root = self.args.get("base_path")
+        process_nd = self.args.get("dongbu_base")
 
         # Dongbu: create platform directories
         create_platform_dirs(new_pl)
@@ -51,6 +52,16 @@ class ConfigUpdaterDongbu:
 ################################################################################
 #                                   TECH/LIBS                                  #
 ################################################################################
+        # Set PROCESS node
+        print("Technology Platform:", process_nd)
+        if process_nd.lower().startswith("il11sj"):
+            process_value = "110"
+        elif process_nd.lower().startswith("is18sh"):
+            process_value = "180"
+        else:
+            raise RuntimeError(f"Unknown technology platform: {process_nd}. Cannot determine PROCESS node.")
+        if process_value:
+            self._update_export("PROCESS", [process_value])
 
         # Dongbu: TECH_DIR
         if not tech_root:
