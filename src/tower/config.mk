@@ -38,7 +38,6 @@ export MIN_BUF_CELL_AND_PORTS ?= ... A Q
 # Floorplan
 # -------------------------------------------------------
 export PLACE_SITE = CoreSite
-export TAPCELL_TCL ?= $(PLATFORM_DIR)/tapcell.tcl
 export MACRO_PLACE_HALO ?= 40 40
 export MACRO_PLACE_CHANNEL ?= 80 80
 export PDN_TCL ?= $(PLATFORM_DIR)/pdn.tcl

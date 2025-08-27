@@ -25,7 +25,6 @@ export CDL_FILE = $(wildcard $(TECH_CDL_DIR)/*.cdl) \
                      $(ADDITIONAL_CDL)
 
 export DONT_USE_CELLS += 
-        #CK* 
 
 # -----------------------------------------------------
 #  Synth Variables
