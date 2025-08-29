@@ -101,7 +101,7 @@ class ConfigUpdater:
         gds_src_dir = tech_dir / "lib" / "gds"
         gds_dst_dir = new_pl / "gds"
         gds_dst_dir.mkdir(parents=True, exist_ok=True)
-        handle_resource(gds_src_dir, gds_dst_dir, "*.gds", "GDS_FILE", self)
+        handle_resource(gds_src_dir, gds_dst_dir, "*.gds", "GDS_FILES", self)
 
 ################################################################################
 #                               Synth Variables                                #

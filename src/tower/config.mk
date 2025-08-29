@@ -43,7 +43,7 @@ export MACRO_PLACE_CHANNEL ?= 80 80
 export PDN_TCL ?= $(PLATFORM_DIR)/pdn.tcl
 export MAKE_TRACKS ?= $(PLATFORM_DIR)/make_tracks.tcl
 export IO_PLACER_H = M3
-export IO_PLACER_V = M2
+export IO_PLACER_V = M4
 export TAP_CELL_NAME = FILLTIE_18_SVT_WB
 export CORE_UTILIZATION ?= 0.60
 #---------------------------------------------------------
